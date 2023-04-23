@@ -24,16 +24,18 @@ writer.writerow(headers)
 #find calendar table on page
 calendar_table = page_soup.find("table", {"class": "ca ca1"})
 
-"""if calendar_table is not None:
+if calendar_table is not None:
     print("found")
 else:
-    print("table not found")"""
+    print("table not found")
 
 #extract data from calendar
 calendar_data = []
-for row in calendar_table.find_all("tr"):
+for row in calendar_table.find_all("tbody"):
     calendar_row = []
-    for cell in row.find_all("tr",{"class": "c1"}):
-        day = cell.find("td",{"class":"cr"})
+    for cell in row.find("tr",{"class": "c1"}):
+        day = cell.find("td")
         if day:
-            writer.writerow([day])
+            writer.writerow([day.text.strip()])
+
+f.close()
