@@ -15,11 +15,11 @@ uClient.close()
 page_soup = soup(page_html,"html.parser")
 
 #create csv
-filename = "january1997.csv"
+"""filename = "january1997.csv"
 with open(filename, "w", newline='') as f:
     writer = csv.writer(f)
     headers = ["Day"]
-    writer.writerow(headers)
+    writer.writerow(headers)"""
 
 #find calendar table on page
 calendar_table = page_soup.find("td", {"class": "cbm cba tc cmi"})
@@ -36,6 +36,12 @@ for row in calendar_table.find_all("table", {"class": "ca ca1"}):
     for cell in row.find("tr"):
         day = cell.find("tr", {"class": "c1"})
         if day:
-            writer.writerow([day.text.strip()])
-
-f.close()
+            filename = "january1997.csv"
+            with open(filename, "w", newline='') as f:
+                writer = csv.writer(f)
+                headers = ["Day"]
+                writer.writerow(headers)
+                for row in calendar_data:
+                    writer.writerow([day.text.strip()])
+                    f.close()
+#f.close()
