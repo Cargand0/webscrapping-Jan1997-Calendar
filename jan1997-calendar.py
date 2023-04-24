@@ -16,13 +16,13 @@ page_soup = soup(page_html,"html.parser")
 
 #create csv
 filename = "january1997.csv"
-f = open(filename, "w", newline='')
-writer = csv.writer(f)
-headers = ["Day"]
-writer.writerow(headers)
+with open(filename, "w", newline='') as f:
+    writer = csv.writer(f)
+    headers = ["Day"]
+    writer.writerow(headers)
 
 #find calendar table on page
-calendar_table = page_soup.find("table", {"class": "ca ca1"})
+calendar_table = page_soup.find("td", {"class": "cbm cba tc cmi"})
 
 if calendar_table is not None:
     print("found")
@@ -31,10 +31,10 @@ else:
 
 #extract data from calendar
 calendar_data = []
-for row in calendar_table.find_all("tbody"):
+for row in calendar_table.find_all("table", {"class": "ca ca1"}):
     calendar_row = []
-    for cell in row.find("tr",{"class": "c1"}):
-        day = cell.find("td")
+    for cell in row.find("tr"):
+        day = cell.find("tr", {"class": "c1"})
         if day:
             writer.writerow([day.text.strip()])
 
